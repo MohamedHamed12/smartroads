@@ -7,13 +7,16 @@ from asgiref.sync import async_to_sync
 from datetime import date
 
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
+
+from .serializer import Vehicleserializer
 from .views import *
 from .models import *
+from django.core import serializers
 class ChatConsumer(WebsocketConsumer):
 
     def vehicle_to_json(self , vehicle):
         return {
-
             'type': vehicle.type,
             'speed': vehicle.speed,
             'datetime': str(vehicle.datetime)
@@ -22,7 +25,7 @@ class ChatConsumer(WebsocketConsumer):
         return {
             'status':accident.status,
             'datetime': str(accident.datetime),
-            'num_of_accidents':accident.num_of_vehicle,
+            'num_of_vehicle':accident.num_of_vehicle,
             'location':accident.location
         }
     
@@ -32,20 +35,19 @@ class ChatConsumer(WebsocketConsumer):
 #**********************************************
     def handled(self ,data):
         pass
+    
     def fetch_vehicles(self ,data):
-      
-        vehicles=Vehicle.objects.all()
         content = {
             'command': 'fetch_vehicles',
-            'vehicles': [self.vehicles_to_json(item)  for item in vehicles] 
+            'vehicles': [self.vehicle_to_json(item) for item in Vehicle.objects.all()]
         }
         return self.send_chat_message(content)
+    
     def fetch_accidents(self ,data):
       
-        accidents=Accident.objects.all()
         content = {
             'command': 'fetch_accidents',
-            'accidents': [self.accident_to_json(item)  for item in accidents]
+            'accidents': [self.accident_to_json(item)  for item in Accident.objects.all()]
         }
         return self.send_chat_message(content)
      

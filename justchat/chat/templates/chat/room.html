@@ -34,7 +34,7 @@
             + roomName
             + '/'
         );
-
+        console.log(chatSocket)
         chatSocket.onmessage = function(e) {
             const data = JSON.parse(e.data);
             let s="";
@@ -61,7 +61,7 @@
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
                 // 'message': message,
-                'command':'dashboard',
+                'command':'fetch_accidents',
                 // 'status':'very dangerous',
                 // 'num_of_vehicle':4,
                 // 'location':'3y4x'
