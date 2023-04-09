@@ -15,6 +15,7 @@ def send_message_on_save(sender, instance, created, **kwargs):
                 'type':'chat_message',
                 'message': {
                     'commands': 'new_vehicle',
+                    'id': instance.id
             }
               
             }
@@ -30,6 +31,7 @@ def send_message_on_save(sender, instance, created, **kwargs):
                 'type':'chat_message',
                 'message': {
                     'commands': 'new_accident',
+                    'id': instance.id
             }
               
             }
