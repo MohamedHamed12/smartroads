@@ -19,7 +19,7 @@ class Accident(models.Model):
     location=models.CharField(max_length=300)
     handled=models.BooleanField(default=False)
 
-    # imag=models.ImageField( upload_to='images')
+    imag=models.ImageField( upload_to='images',null=True, blank=True)
     
     # def __str__(self) :
     #     return f"{self.num_of_vehicle}{self.status}"

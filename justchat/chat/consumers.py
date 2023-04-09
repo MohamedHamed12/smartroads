@@ -39,6 +39,8 @@ class ChatConsumer(WebsocketConsumer):
     def fetch_vehicles(self ,data):
         content = {
             'command': 'fetch_vehicles',
+            # 'vehicles': serializers.serialize('json', Vehicle.objects.all())
+
             'vehicles': [self.vehicle_to_json(item) for item in Vehicle.objects.all()]
         }
         return self.send_chat_message(content)
