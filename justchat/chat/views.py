@@ -16,6 +16,7 @@ def index(request):
     return render(request, "chat/index.html",{})
     
 def room(request, room_name):
+    room_name='room'
     return render(request, "chat/room.html", {"room_name": room_name})
 
 class viewsets_vehicle(viewsets.ModelViewSet ):

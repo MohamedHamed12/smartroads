@@ -1,98 +1,27 @@
 # chat/consumers.py
 import json
-
+from channels.layers import get_channel_layer
 
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 from datetime import date
 
 from django.contrib.auth import get_user_model
+from django.dispatch import receiver
 from django.http import JsonResponse
 
 from .serializer import Vehicleserializer
 from .views import *
 from .models import *
 from django.core import serializers
-class ChatConsumer(WebsocketConsumer):
-
-    def vehicle_to_json(self , vehicle):
-        return {
-            'type': vehicle.type,
-            'speed': vehicle.speed,
-            'datetime': str(vehicle.datetime)
-        }
-    def accident_to_json(self , accident):
-        return {
-            'status':accident.status,
-            'datetime': str(accident.datetime),
-            'num_of_vehicle':accident.num_of_vehicle,
-            'location':accident.location
-        }
-    
-
-
-
-#**********************************************
-    def handled(self ,data):
-        pass
-    
-    def fetch_vehicles(self ,data):
-        content = {
-            'command': 'fetch_vehicles',
-            # 'vehicles': serializers.serialize('json', Vehicle.objects.all())
-
-            'vehicles': [self.vehicle_to_json(item) for item in Vehicle.objects.all()]
-        }
-        return self.send_chat_message(content)
-    
-    def fetch_accidents(self ,data):
-      
-        content = {
-            'command': 'fetch_accidents',
-            'accidents': [self.accident_to_json(item)  for item in Accident.objects.all()]
-        }
-        return self.send_chat_message(content)
-     
-    def dashboard(self,data):
-        content = {
-            'command': 'dashboard',
-            'data': {
-            'car_count': Vehicle.objects.count(),
-            'accident_count': Accident.objects.count(),
-            }
-        }
-        return self.send_chat_message(content)
-    def new_accident(self,data):
-        accident=Accident.objects.create(status=data['status'],location=data['location'],num_of_vehicle=data['num_of_vehicle'])
-        content={
-            'comand': 'new_accident',
-            'accident':self.accident_to_json(accident)
-        }
-        return  self.send_chat_message(content)
-
-
-    def new_vehicle(self,data):
-     
-        vehicle=Vehicle.objects.create(type=data['type'],speed=data['speed'])
-        content = {
-            'command': 'new_vehicle',
-            'vehicle': self.vehicle_to_json(vehicle)
-        }
-        return self.send_chat_message(content)
-    
-
-    commands = {
-        'new_vehicle': new_vehicle,
-        'new_accident': new_accident,
-        'fetch_vehicles': fetch_vehicles,
-        'fetch_accidents': fetch_accidents,
-        'dashboard': dashboard,
-        'handled':handled,
-    }
-#**************************************************************
+from django.db.models.signals import post_save
+class ChatConsumer(WebsocketConsumer):  
     def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = "chat_%s" % self.room_name
+
+        self.room_name = 'room'
+        self.room_group_name = "chatroom"
         
         # Join room group
         async_to_sync (self.channel_layer.group_add)(self.room_group_name, self.channel_name)
