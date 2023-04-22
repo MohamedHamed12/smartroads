@@ -4,22 +4,28 @@ from django.db import models
 
 User = get_user_model()
 
-
+class Road(models.Model):
+    name = models.CharField(max_length=150)
+    def __str__(self) :
+        return self.name
+class Unit(models.Model):
+    
+    location = models.CharField(max_length=150)
+    road = models.ForeignKey(Road, on_delete=models.CASCADE)
+    def __str__(self) :
+        return self.location+self.road.name
+    
 class Vehicle(models.Model):
-    type = models.CharField(max_length=150)
+    road = models.ForeignKey(Road, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True)
-    speed=models.IntegerField()
-    # def __str__(self) :
-    #     return f"{self.type} at {str(datetime)}"
+    unit= models.ForeignKey(Unit, on_delete=models.CASCADE)
+
 
 class Accident(models.Model):
-    num_of_vehicle=models.IntegerField()
+    unit= models.ForeignKey(Unit, on_delete=models.CASCADE)
+    road = models.ForeignKey(Road, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True)
     status=models.CharField(max_length=200)
-    location=models.CharField(max_length=300)
     handled=models.BooleanField(default=False)
-
     imag=models.ImageField( upload_to='images',null=True, blank=True)
     
-    # def __str__(self) :
-    #     return f"{self.num_of_vehicle}{self.status}"
