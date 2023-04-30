@@ -12,5 +12,5 @@ urlpatterns = [
     # path("", views.index, name="index"),
     path("room/<str:room_name>/", views.room, name="room"),
     path('',include(router.urls)  ),
-    path("dashboard",views.dashboard,name="dashboard"),
+    path("dashboard/",views.dashboard,name="dashboard"),
 ]
