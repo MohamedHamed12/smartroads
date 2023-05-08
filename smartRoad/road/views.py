@@ -7,6 +7,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status ,generics ,mixins ,viewsets ,filters
+
+from .detect_model import run_detection
 from .serializer import Accidentserializer, Roadserializer, Unitserializer, Vehicleserializer
 from .models import Accident, Road, Unit, Vehicle
 
@@ -38,6 +40,25 @@ class viewsets_vehicle(viewsets.ModelViewSet ):
 class viewsets_accident(viewsets.ModelViewSet ):
     queryset=Accident.objects.all()
     serializer_class=Accidentserializer
+    def create(self, request, *args, **kwargs):
+        # Extract the image data from the request
+        image = request.data.get('image')
+
+        # Run detection using the machine learning model
+        detection_results = run_detection(image)
+
+        if detection_results:
+            # If detection is successful, proceed with saving to the database
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            # If detection fails, return an error response
+            error_data = {'error': 'Image detection failed.'}
+            return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
 class viewsets_road(viewsets.ModelViewSet ):
     queryset=Road.objects.all()
     serializer_class=Roadserializer

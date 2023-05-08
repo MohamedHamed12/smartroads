@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 INSTALLED_APPS = [
     "daphne",
     'road',
-    'users',
+    'account',
     
   
     'django.contrib.admin',
@@ -146,8 +146,15 @@ CSRF_COOKIE_SECURE = True
 #     'accounts.auth.UserEmailOrUsernameAuth'
 # ]
 # AUTH_USER_MODEL = 'custom_user.User'
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'account.CustomUser'
 
-LOGIN_URL = '/users/login/'
+LOGIN_URL = '/account/login/'
 
 LOGOUT_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = ['account.auth_backends.EmailBackend']
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
