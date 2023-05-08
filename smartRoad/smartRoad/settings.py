@@ -16,7 +16,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -33,6 +32,9 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 INSTALLED_APPS = [
     "daphne",
     'road',
+    'account',
+    
+  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,3 +141,20 @@ CHANNEL_LAYERS = {
 }
 CSRF_COOKIE_SECURE = True
 # CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
+
+# AUTHENTICATION_BACKENDS = [
+#     'accounts.auth.UserEmailOrUsernameAuth'
+# ]
+# AUTH_USER_MODEL = 'custom_user.User'
+AUTH_USER_MODEL = 'account.CustomUser'
+
+LOGIN_URL = '/account/login/'
+
+LOGOUT_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = ['account.auth_backends.EmailBackend']
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
