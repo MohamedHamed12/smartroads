@@ -59,6 +59,14 @@ class viewsets_accident(viewsets.ModelViewSet ):
             # If detection fails, return an error response
             error_data = {'error': 'Image detection failed.'}
             return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Filter the queryset based on your conditions
+        queryset = queryset.filter(handled=False)
+
+        return queryset
+    
+    
 class viewsets_road(viewsets.ModelViewSet ):
     queryset=Road.objects.all()
     serializer_class=Roadserializer
