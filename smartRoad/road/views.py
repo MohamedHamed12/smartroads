@@ -62,7 +62,7 @@ class viewsets_accident(viewsets.ModelViewSet ):
     def get_queryset(self):
         queryset = super().get_queryset()
         # Filter the queryset based on your conditions
-        queryset = queryset.filter(handled=False)
+        # queryset = queryset.filter(handled=False)
 
         return queryset
     
