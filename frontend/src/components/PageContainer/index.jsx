@@ -3,7 +3,7 @@ import { Container } from "@chakra-ui/react";
 
 function PageContainer({ children }) {
   return (
-    <Container p={{ base: 4, md: 10 }} maxW="6xl">
+    <Container p={{ base: 4, md: 10 }} maxW="6xl" minH="100vh">
       {children}
     </Container>
   );

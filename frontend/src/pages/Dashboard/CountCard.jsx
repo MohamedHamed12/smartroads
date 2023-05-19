@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Box, Text, Heading, Button } from "@chakra-ui/react";
+import { Text, Heading, Button, HStack, Box } from "@chakra-ui/react";
 import compressNumber from "../../utils/compress-number";
 import { Link } from "react-router-dom";
 
@@ -14,14 +14,14 @@ CountCard.propTypes = {
 export function CardTitle({ title, count, color }) {
   return (
     <Box>
-      <Box>
-        <Heading as="span" size="lg">
+      <HStack>
+        <Heading as="span" size="lg" flexBasis={{ base: "150px", md: "200px" }}>
           {title}
         </Heading>
-        <Heading ml={4} as="span" size="xl" color={color}>
+        <Heading ml={8} as="span" size="xl" color={color}>
           {compressNumber(count)}
         </Heading>
-      </Box>
+      </HStack>
       <Text mt={1} color="gray.600">
         for past 24 hours
       </Text>

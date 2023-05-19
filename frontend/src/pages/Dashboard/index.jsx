@@ -1,7 +1,13 @@
 import { Box, Flex, Grid, Heading } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import CountCard, { CardButton, CardTitle } from "./CountCard";
+import { dashboardQuery } from "./loader";
 
 function Dashboard() {
+  const { data } = useQuery(dashboardQuery);
+
+  console.log(data)
+
   return (
     <>
       <Box as="header">
@@ -25,11 +31,11 @@ function Dashboard() {
           gap={10}
         >
           <CountCard>
-            <CardTitle title="Cars Count" count={2000} color="green.500" />
+            <CardTitle title="Cars Count" count={data.verticals_last_24h} color="green.500" />
             <CardButton caption="Cars Count Page" color="green" link="/cars-count" />
           </CountCard>
           <CountCard>
-            <CardTitle title="Accidents" count={13} color="red.500" />
+            <CardTitle title="Accidents" count={data.accident_last_24h} color="red.500" />
             <CardButton caption="Accidents Page" color="red" link="/accidents" />
           </CountCard>
         </Grid>
