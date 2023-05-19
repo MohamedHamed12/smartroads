@@ -5,6 +5,7 @@ import RouteError from "./pages/RouteError";
 import Accidents from "./pages/Accidents";
 
 import dashboardLoader from "./pages/Dashboard/loader";
+import accidentsLoader from "./pages/Accidents/loader";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
     path: "/accidents",
     element: <Accidents />,
     errorElement: <RouteError />,
+    loader: accidentsLoader
   },
 ]);
 
