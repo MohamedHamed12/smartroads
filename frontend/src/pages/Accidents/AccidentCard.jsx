@@ -5,7 +5,7 @@ import { Icon } from "@chakra-ui/react";
 import { BsDot } from "react-icons/bs";
 import PropTypes from "prop-types";
 import getElapsedDate from "../../utils/get-elapsed-or-date";
-import fallbackSrc from "./fallback.jpg";
+import fallbackSrc from "../../assets/accident-fallback.jpg";
 
 const statusColor = {
   deadly: "red.500",

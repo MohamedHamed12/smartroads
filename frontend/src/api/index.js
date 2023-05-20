@@ -8,3 +8,7 @@ export function accidents() {
   return http.get("/accidents");
 }
 
+export function accident(id) {
+  return http.get("/accidents/" + id);
+}
+
