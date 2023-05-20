@@ -20,12 +20,21 @@ class Vehicle(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     unit= models.ForeignKey(Unit, on_delete=models.CASCADE)
 
+STATUS_CHOICES=(
+    ('normal', 'Normal'),
+    ('danger', 'Danger'),
+    ('deadly', 'Deadly'),
+)
 
 class Accident(models.Model):
     unit= models.ForeignKey(Unit, on_delete=models.CASCADE)
-    road = models.ForeignKey(Road, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True)
-    status=models.CharField(max_length=200)
+    status=models.CharField(max_length=50,choices=STATUS_CHOICES)
     handled=models.BooleanField(default=False)
-    imag=models.ImageField( upload_to='images',null=True, blank=True)
+    # image=models.ImageField( upload_to='images',null=True, blank=True, multiple=True)
+    title=models.CharField(max_length=200,default='accident ')
+    # title=models.CharField(max_length=200,default='accident at '+str(road))
+class AccidentImages(models.Model):
+    accident=models.ForeignKey(Accident, on_delete=models.CASCADE)
+    image=models.ImageField(upload_to='images')
     

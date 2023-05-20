@@ -4,10 +4,11 @@ from django.urls import include, path
 from . import views
 from rest_framework.routers import DefaultRouter
 router=DefaultRouter()
-router.register('vehicles',views.viewsets_vehicle)
-router.register('accidents',views.viewsets_accident)
-router.register('units',views.viewsets_unit)
-router.register('roads',views.viewsets_road)
+router.register('vehicles',views.vehicle_viewsets)
+router.register('accidents',views.accident_viewsets)
+router.register('units',views.unit_viewsets)
+router.register('roads',views.road_viewsets)
+router.register('accidentImages',views.AccidentImages_viewsets)
 urlpatterns = [
     # path("", views.index, name="index"),
     path("room/<str:room_name>/", views.room, name="room"),
