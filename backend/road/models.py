@@ -33,7 +33,6 @@ class Accident(models.Model):
     handled=models.BooleanField(default=False)
     # image=models.ImageField( upload_to='images',null=True, blank=True, multiple=True)
     title=models.CharField(max_length=200,default='accident ')
-    # title=models.CharField(max_length=200,default='accident at '+str(road))
 class AccidentImages(models.Model):
     accident=models.ForeignKey(Accident, on_delete=models.CASCADE)
     image=models.ImageField(upload_to='images')

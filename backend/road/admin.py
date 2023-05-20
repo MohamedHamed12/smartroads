@@ -19,7 +19,6 @@ class Roadadmin(admin.ModelAdmin):
 class AccidentImagesadmin(admin.ModelAdmin):
 
     list_display = ('id','image','accident')
-    # list_display = ('id','accident')
 
 admin.site.register(Vehicle,Vehicleadmin)
 admin.site.register(Accident,Accidentadmin)

@@ -63,9 +63,6 @@ class accident_viewsets(viewsets.ModelViewSet ):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        # Filter the queryset based on your conditions
-        # queryset = queryset.filter(handled=False)
-
         return queryset
     
     
@@ -84,8 +81,7 @@ class AccidentImages_viewsets(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = super().get_queryset()
         accident_id=self.request.query_params.get('accident_id')
-        # for i in self.request:
-        #     print(i)
+      
         print(accident_id)
         queryset = queryset.filter(accident_id=accident_id)
 
