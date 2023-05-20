@@ -27,12 +27,14 @@ STATUS_CHOICES=(
 )
 
 class Accident(models.Model):
+    title=models.CharField(max_length=200,default='accident ')
+    description = models.TextField(default='this is a Accident')
     unit= models.ForeignKey(Unit, on_delete=models.CASCADE)
     datetime = models.DateTimeField(auto_now_add=True)
     status=models.CharField(max_length=50,choices=STATUS_CHOICES)
     handled=models.BooleanField(default=False)
-    # image=models.ImageField( upload_to='images',null=True, blank=True, multiple=True)
-    title=models.CharField(max_length=200,default='accident ')
+  
+
 class AccidentImages(models.Model):
     accident=models.ForeignKey(Accident, on_delete=models.CASCADE)
     image=models.ImageField(upload_to='images')

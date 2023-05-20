@@ -82,7 +82,7 @@ class AccidentImages_viewsets(viewsets.ModelViewSet):
         queryset = super().get_queryset()
         accident_id=self.request.query_params.get('accident_id')
       
-        print(accident_id)
+        # print(accident_id)
         queryset = queryset.filter(accident_id=accident_id)
 
         return queryset
