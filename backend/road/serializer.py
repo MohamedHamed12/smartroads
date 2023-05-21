@@ -9,6 +9,7 @@ class Vehicleserializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields='__all__'
+
 class AccidentImagesserializer(serializers.ModelSerializer):
     class Meta:
         model = AccidentImages
@@ -33,6 +34,7 @@ class Accidentserializer(serializers.ModelSerializer):
         data['unit_location'] = instance.unit.location
         # data['images'] = AccidentImages.objects.filter(accident=instance) 
         return data
+    
 class Roadserializer(serializers.ModelSerializer):
     class Meta:
         model = Road
