@@ -1,12 +1,35 @@
 import { Box, Flex, Grid, Heading } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
+import useWebsocketMessage from "~/hooks/useWebsocketMessage";
 import CountCard, { CardButton, CardTitle } from "./CountCard";
 import { dashboardQuery } from "./loader";
 
 function Dashboard() {
+  const [carsCount, setCarsCount] = useState(0);
+  const [accidents, setAccidents] = useState(0);
   const { data } = useQuery(dashboardQuery);
 
-  console.log(data)
+  useEffect(() => {
+    setCarsCount(data.verticals_last_24h);
+    setAccidents(data.accident_last_24h);
+  }, [data]);
+
+  useWebsocketMessage(
+    useCallback((event) => {
+      const { commands } = JSON.parse(event.data).message;
+      switch (commands) {
+        case "new_vehicle":
+          setCarsCount((old) => old + 1);
+          break;
+        case "new_accident":
+          setAccidents((old) => old + 1);
+          break;
+        default:
+          throw new Error("unkown message commands: " + JSON.stringify(commands));
+      }
+    }, [])
+  );
 
   return (
     <>
@@ -31,11 +54,11 @@ function Dashboard() {
           gap={10}
         >
           <CountCard>
-            <CardTitle title="Cars Count" count={data.verticals_last_24h} color="green.500" />
+            <CardTitle title="Cars Count" count={carsCount} color="green.500" />
             <CardButton caption="Cars Count Page" color="green" link="/cars-count" />
           </CountCard>
           <CountCard>
-            <CardTitle title="Accidents" count={data.accident_last_24h} color="red.500" />
+            <CardTitle title="Accidents" count={accidents} color="red.500" />
             <CardButton caption="Accidents Page" color="red" link="/accidents" />
           </CountCard>
         </Grid>

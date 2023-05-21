@@ -14,7 +14,7 @@ const statusColor = {
   unkown: "gray.800",
 };
 
-function AccidentCard({ handled, status, imag, datetime, recent = false }) {
+function AccidentCard({ handled, status, imag, datetime, title, description, recent = false }) {
   return (
     <Card direction={{ base: "column", md: "row" }} overflow="hidden" variant="outline">
       <Image
@@ -28,7 +28,8 @@ function AccidentCard({ handled, status, imag, datetime, recent = false }) {
       <CardBody>
         <VStack spacing={3} alignItems="flex-start">
           <Heading as="h3" size="lg">
-            Emergency case title
+            {" "}
+            {title}{" "}
           </Heading>
 
           <HStack spacing="4px" color="gray.600">
@@ -49,8 +50,7 @@ function AccidentCard({ handled, status, imag, datetime, recent = false }) {
           </HStack>
 
           <Text py="2" color="gray.800">
-            Description of the emergency case goes, this should be generated automatically using the
-            AI model And then to be sent tot he server.
+            {description}
           </Text>
         </VStack>
       </CardBody>
@@ -61,6 +61,8 @@ function AccidentCard({ handled, status, imag, datetime, recent = false }) {
 AccidentCard.propTypes = {
   imag: PropTypes.string,
   datetime: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
   handled: PropTypes.boolean,
   recent: PropTypes.boolean,
   status: PropTypes.oneOf(["deadly", "danger", "normal", "unkown"]),

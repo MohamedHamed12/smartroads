@@ -31,7 +31,7 @@ export function CardTitle({ title, count, color }) {
 
 CardTitle.propTypes = {
   title: PropTypes.string,
-  count: PropTypes.nubmer,
+  count: PropTypes.number,
   color: PropTypes.string,
 };
 
