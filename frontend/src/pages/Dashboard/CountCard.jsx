@@ -1,7 +1,9 @@
 import PropTypes from "prop-types";
+import ChangeHighlight from "react-change-highlight";
 import { Text, Heading, Button, HStack, Box } from "@chakra-ui/react";
-import compressNumber from "../../utils/compress-number";
 import { Link } from "react-router-dom";
+import { createRef } from "react";
+import compressNumber from "../../utils/compress-number";
 
 export default function CountCard({ children }) {
   return <Box>{children}</Box>;
@@ -19,7 +21,9 @@ export function CardTitle({ title, count, color }) {
           {title}
         </Heading>
         <Heading ml={8} as="span" size="xl" color={color}>
-          {compressNumber(count)}
+          <ChangeHighlight>
+            <span ref={createRef()}>{compressNumber(count)}</span>
+          </ChangeHighlight>
         </Heading>
       </HStack>
       <Text mt={1} color="gray.600">
