@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework import status ,generics ,mixins ,viewsets ,filters
 
 from .detect_model import run_detection
-from .serializer import Accidentserializer, Roadserializer, Unitserializer, Vehicleserializer
-from .models import Accident, Road, Unit, Vehicle
+from .serializer import AccidentImagesserializer, Accidentserializer, Roadserializer, Unitserializer, Vehicleserializer
+from .models import Accident, AccidentImages, Road, Unit, Vehicle
 
 User = get_user_model()
 
@@ -33,11 +33,11 @@ def room(request, room_name):
     room_name='room'
     return render(request, "road/room.html", {"room_name": room_name})
 
-class viewsets_vehicle(viewsets.ModelViewSet ):
+class vehicle_viewsets(viewsets.ModelViewSet ):
     queryset=Vehicle.objects.all()
     serializer_class=Vehicleserializer
     
-class viewsets_accident(viewsets.ModelViewSet ):
+class accident_viewsets(viewsets.ModelViewSet ):
     queryset=Accident.objects.all()
     serializer_class=Accidentserializer
     def create(self, request, *args, **kwargs):
@@ -59,19 +59,31 @@ class viewsets_accident(viewsets.ModelViewSet ):
             # If detection fails, return an error response
             error_data = {'error': 'Image detection failed.'}
             return Response(error_data, status=status.HTTP_400_BAD_REQUEST)
+   
+
     def get_queryset(self):
         queryset = super().get_queryset()
-        # Filter the queryset based on your conditions
-        # queryset = queryset.filter(handled=False)
-
         return queryset
     
     
-class viewsets_road(viewsets.ModelViewSet ):
+class road_viewsets(viewsets.ModelViewSet ):
     queryset=Road.objects.all()
     serializer_class=Roadserializer
     
-class viewsets_unit(viewsets.ModelViewSet ):
+class unit_viewsets(viewsets.ModelViewSet ):
     queryset=Unit.objects.all()
     serializer_class=Unitserializer
+    
+class AccidentImages_viewsets(viewsets.ModelViewSet):
+    queryset=AccidentImages.objects.all()
+    serializer_class=AccidentImagesserializer
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        accident_id=self.request.query_params.get('accident_id')
+      
+        # print(accident_id)
+        queryset = queryset.filter(accident_id=accident_id)
+
+        return queryset
     

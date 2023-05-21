@@ -3,6 +3,8 @@ from django.dispatch import receiver
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
+from .serializer import Accidentserializer, Vehicleserializer
+
 from .models import Accident, Vehicle
 
 @receiver(post_save, sender=Vehicle)
@@ -15,7 +17,7 @@ def send_message_on_save(sender, instance, created, **kwargs):
                 'type':'road_message',
                 'message': {
                     'commands': 'new_vehicle',
-                    'id': instance.id
+                    'vehicle': Vehicleserializer(instance).data
             }
               
             }
@@ -31,7 +33,7 @@ def send_message_on_save(sender, instance, created, **kwargs):
                 'type':'road_message',
                 'message': {
                     'commands': 'new_accident',
-                    'id': instance.id
+                    'accident': Accidentserializer(instance).data
             }
               
             }
