@@ -23,7 +23,7 @@ def dashboard(req):
     last_24h = datetime.datetime.now() - datetime.timedelta(hours=24)
 
     response_data={
-        'verticals_last_24h': Vehicle.objects.filter(datetime__gte=last_24h).count(),
+        'vehicle_last_24h': Vehicle.objects.filter(datetime__gte=last_24h).count(),
         'accident_last_24h':Accident.objects.filter(datetime__gte=last_24h).count(),
     }
     return JsonResponse(response_data)
