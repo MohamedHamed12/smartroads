@@ -11,7 +11,7 @@ function Dashboard() {
   const { data } = useQuery(dashboardQuery);
 
   useEffect(() => {
-    setCarsCount(data.verticals_last_24h);
+    setCarsCount(data.vehicle_last_24h);
     setAccidents(data.accident_last_24h);
   }, [data]);
 
