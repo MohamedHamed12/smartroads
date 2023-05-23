@@ -64,7 +64,9 @@ class accident_viewsets(viewsets.ModelViewSet ):
              
             headers = self.get_success_headers(serializer.data)
             
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            ser=Accidentserializer(Accident.objects.get(id=accident_id)).data
+            return Response(ser, status=status.HTTP_201_CREATED, headers=headers)
+            # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         else:
             # If detection fails, return an error response
             error_data = {'error': 'Image detection failed.'}
