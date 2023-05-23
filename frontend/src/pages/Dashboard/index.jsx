@@ -25,8 +25,6 @@ function Dashboard() {
         case "new_accident":
           setAccidents((old) => old + 1);
           break;
-        default:
-          throw new Error("unkown message commands: " + JSON.stringify(commands));
       }
     }, [])
   );
