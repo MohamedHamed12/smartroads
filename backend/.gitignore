@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 .fuse_hidden000001c700000001
+db.sqlite3
