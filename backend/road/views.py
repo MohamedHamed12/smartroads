@@ -43,6 +43,7 @@ class accident_viewsets(viewsets.ModelViewSet ):
     def create(self, request, *args, **kwargs):
         # Extract the image data from the request
         image = request.data.get('image')
+        
 
         # Run detection using the machine learning model
         detection_results = run_detection(image)
@@ -52,9 +53,20 @@ class accident_viewsets(viewsets.ModelViewSet ):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            # save image to accident
+            accident_id = serializer.data['id']
+            data={'accident':accident_id,'image':image}
+            accidentImageserializer = AccidentImagesserializer(data=data)
+            accidentImageserializer.is_valid(raise_exception=True)
+            accidentImageserializer.save()
+
+             
+            headers = self.get_success_headers(serializer.data)
+            
+            ser=Accidentserializer(Accident.objects.get(id=accident_id)).data
+            return Response(ser, status=status.HTTP_201_CREATED, headers=headers)
+            # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
         else:
             # If detection fails, return an error response
             error_data = {'error': 'Image detection failed.'}

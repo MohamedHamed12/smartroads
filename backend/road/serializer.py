@@ -19,6 +19,7 @@ class AccidentImagesserializer(serializers.ModelSerializer):
 class Accidentserializer(serializers.ModelSerializer):
 
     images = serializers.SerializerMethodField()
+    # img = serializers.ImageField(write_only=True)
     class Meta:
         model = Accident
         fields='__all__'
@@ -28,6 +29,8 @@ class Accidentserializer(serializers.ModelSerializer):
 
         return serializer.data
     
+
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['road_name'] = instance.unit.road.name
