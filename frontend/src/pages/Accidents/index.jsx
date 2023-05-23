@@ -7,9 +7,10 @@ import { Link as RouterLink } from "react-router-dom";
 import AccidentCard from "./AccidentCard";
 import useWebsocketMessage from "~/hooks/useWebsocketMessage";
 
+const newSet = new Set();
+
 function Accidents() {
   const { data: accidents } = useQuery(accidentsQuery);
-  const [newSet] = useState(new Set());
   const [activeTab, setActiveTab] = useState("current");
   const [newAccidents, setNewAccidents] = useState([]);
 
@@ -27,16 +28,13 @@ function Accidents() {
   }, [accidents]);
 
   useWebsocketMessage(
-    useCallback(
-      (event) => {
-        const { commands, accident } = JSON.parse(event.data).message;
-        if (commands == "new_accident") {
-          newSet.add(accident.id);
-          setNewAccidents((old) => [accident, ...old]);
-        }
-      },
-      [newSet]
-    )
+    useCallback((event) => {
+      const { commands, accident } = JSON.parse(event.data).message;
+      if (commands == "new_accident") {
+        newSet.add(accident.id);
+        setNewAccidents((old) => [accident, ...old]);
+      }
+    }, [])
   );
 
   return (
