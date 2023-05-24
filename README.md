@@ -40,3 +40,11 @@ A faculty project in which we use our knowledge in software engineering, AI & ML
 - Images: multiple images of the accident
 - Handled: `true, false`
 - Date & Time
+
+images
+![image](https://github.com/MohamedHamed12/smartroads/assets/90472426/da1a4060-1653-4308-8c03-f6a8a04662de)
+![image](https://github.com/MohamedHamed12/smartroads/assets/90472426/266fe7dc-2702-4a2d-99ac-4956bb0a77a8)
+![image](https://github.com/MohamedHamed12/smartroads/assets/90472426/35fc1c7e-b458-422b-b5aa-330173466704)
+
+
+
