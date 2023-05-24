@@ -9,6 +9,7 @@ export default function useWebsocketMessage(callback) {
   const socket = useWebsocket();
 
   useEffect(() => {
+    console.log("registering a listener");
     if (!(socket instanceof WebSocket)) return;
     const listener = socket.addEventListener("message", callback);
     return () => socket.removeEventListener("message", listener);

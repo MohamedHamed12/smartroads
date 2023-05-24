@@ -18,12 +18,17 @@ import { FiCalendar, FiExternalLink, FiMapPin } from "react-icons/fi";
 import { BsX } from "react-icons/bs";
 import { BiSave } from "react-icons/bi";
 import { useCallback, useState } from "react";
+import { queryClient } from "~/query-client";
 
 export const accidentEditAction = async ({ request, params }) => {
   const data = {};
   const formData = await request.formData();
   for (let key of formData.keys()) data[key] = formData.get(key);
   await api.accidentUpdate(params.id, data);
+  await queryClient.invalidateQueries({
+    queryKey: accidentQuery(params.id).queryKey,
+    exact: true,
+  });
   return redirect("../");
 };
 

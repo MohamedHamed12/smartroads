@@ -16,7 +16,12 @@ const statusColor = {
 
 function AccidentCard({ handled, status, imag, datetime, title, description, recent = false }) {
   return (
-    <Card direction={{ base: "column", md: "row" }} overflow="hidden" variant="outline">
+    <Card
+      direction={{ base: "column", md: "row" }}
+      overflow="hidden"
+      variant="outline"
+      role="group"
+    >
       <Image
         loading="lazy"
         objectFit="cover"
@@ -27,9 +32,28 @@ function AccidentCard({ handled, status, imag, datetime, title, description, rec
       />
       <CardBody>
         <VStack spacing={3} alignItems="flex-start">
-          <Heading as="h3" size="lg">
-            {" "}
-            {title}{" "}
+          <Heading
+            as="h3"
+            size="lg"
+            display="flex"
+            align="center"
+            _groupHover={{ textDecoration: "underline" }}
+          >
+            <Text as="span">{title}</Text>
+            {recent && (
+              <Text
+                as="span"
+                borderRadius="50px"
+                ms={3}
+                py={2}
+                px={3}
+                bg="red.500"
+                color="white"
+                fontSize="md"
+              >
+                NEW
+              </Text>
+            )}
           </Heading>
 
           <HStack spacing="4px" color="gray.600">

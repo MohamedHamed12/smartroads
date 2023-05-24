@@ -6,7 +6,7 @@ import { queryClient } from "~/query-client";
 import * as api from "~api";
 
 export const accidentQuery = (id) => ({
-  queryKey: ["accident", id],
+  queryKey: ["accidents", id],
   queryFn: () => api.accident(id),
 });
 

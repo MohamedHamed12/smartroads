@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import * as api from "~api";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link as RouterLink, useParams } from "react-router-dom";
 import { accidentQuery } from "./";
 import {
@@ -14,7 +15,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { FiCalendar, FiExternalLink, FiMapPin } from "react-icons/fi";
-import { BsCheck2, BsPen } from "react-icons/bs";
+import { BsCheck2, BsPen, BsX } from "react-icons/bs";
+import { queryClient } from "~/query-client";
 
 const statusColor = {
   deadly: "red.500",
@@ -27,6 +29,19 @@ function View() {
   const { id } = useParams();
   const { data: accident } = useQuery(accidentQuery(id));
   const googleMapLink = `https://maps.google.com/?q=${accident.unit.location.latt},${accident.unit.location.long}`;
+
+  const doneMutation = useMutation(
+    () => {
+      return api.accidentUpdate(id, { handled: !accident.handled });
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries({
+          queryKey: accidentQuery(id).queryKey,
+        });
+      },
+    }
+  );
 
   return (
     <>
@@ -87,9 +102,27 @@ function View() {
           <Button size="lg" colorScheme="red">
             Send Firetruck
           </Button>
-          <Button size="lg" colorScheme="green" leftIcon={<Icon as={BsCheck2} />}>
-            Done
-          </Button>
+          {accident.handled ? (
+            <Button
+              size="lg"
+              colorScheme="gray"
+              leftIcon={<Icon as={BsX} />}
+              isLoading={doneMutation.loading}
+              onClick={() => (doneMutation.mutateAsync(), void 0)}
+            >
+              Mark as undone
+            </Button>
+          ) : (
+            <Button
+              size="lg"
+              colorScheme="green"
+              leftIcon={<Icon as={BsCheck2} />}
+              isLoading={doneMutation.loading}
+              onClick={() => (doneMutation.mutateAsync(), void 0)}
+            >
+              Mark as done
+            </Button>
+          )}
         </Grid>
       </Flex>
     </>
