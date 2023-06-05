@@ -37,7 +37,7 @@ To set up and run the Smart Roads project locally, follow these steps:
 1.  Clone the repository:
     
     ```
-    shellgit clone https://github.com/MohamedHamed12/smartroads.git
+    git clone https://github.com/MohamedHamed12/smartroads.git
     
     ```
     
