@@ -1,4 +1,4 @@
-## Smart Roads
+## Smart Roads 
 
 This project aims to develop a smart road using Django, combining software engineering, AI & ML, and hardware to create an intelligent transportation system.
 
